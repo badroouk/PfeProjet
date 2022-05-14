@@ -47,6 +47,7 @@ void loop() {
     int thirdCommaIndex = values.indexOf(',', secondCommaIndex + 1);
     int fourthCommaIndex = values.indexOf(',', thirdCommaIndex + 1);
     int fifthCommaIndex = values.indexOf(',', fourthCommaIndex + 1);
+    int sixthCommaIndex = values.indexOf(',', fifthCommaIndex + 1);
 
     //get sensors data from values variable by  spliting by commas and put in to variables
     String temperature = values.substring(0, firstCommaIndex);
@@ -54,6 +55,7 @@ void loop() {
     String ultraViolet = values.substring(secondCommaIndex + 1 , thirdCommaIndex);
     String Precipitation = values.substring(thirdCommaIndex + 1 , fourthCommaIndex);
     String luminosity = values.substring(fourthCommaIndex + 1, fifthCommaIndex);
+    String CO = values.substring(fifthCommaIndex + 1, sixthCommaIndex);
 
 
     //store ultrasonic sensor data as string in firebase
@@ -67,6 +69,8 @@ void loop() {
     Firebase.setString("Precipitation",Precipitation);
     delay(10);
     Firebase.setString("Luminosity",luminosity);
+    delay(10);
+    Firebase.setString("Carbon Monoxide",CO);
     delay(10);
     
     //store previous sensors data as string in firebase
