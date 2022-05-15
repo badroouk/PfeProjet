@@ -49,7 +49,7 @@ void loop() {
     int fifthCommaIndex = values.indexOf(',', fourthCommaIndex + 1);
     int sixthCommaIndex = values.indexOf(',', fifthCommaIndex + 1);
 
-    //get sensors data from values variable by  spliting by commas and put in to variables
+    //Seperate sensor values from arduino serial port
     String temperature = values.substring(0, firstCommaIndex);
     String humidity = values.substring(firstCommaIndex + 1, secondCommaIndex);
     String ultraViolet = values.substring(secondCommaIndex + 1 , thirdCommaIndex);
@@ -58,22 +58,19 @@ void loop() {
     String CO = values.substring(fifthCommaIndex + 1, sixthCommaIndex);
 
 
-    //store ultrasonic sensor data as string in firebase
-    Firebase.setString("temperature", temperature);
+    //Data storage
+    Firebase.pushString("temperature", temperature);
     delay(10);
-    //store IR sensor 1 data as string in firebase
-    Firebase.setString("humidity", humidity);
+    Firebase.pushString("humidity", humidity);
     delay(10);
-    Firebase.setString("Ultraviolet",ultraViolet);
+    Firebase.pushString("Ultraviolet",ultraViolet);
     delay(10);
-    Firebase.setString("Precipitation",Precipitation);
+    Firebase.pushString("Precipitation",Precipitation);
     delay(10);
-    Firebase.setString("Luminosity",luminosity);
+    Firebase.pushString("Luminosity",luminosity);
     delay(10);
-    Firebase.setString("Carbon Monoxide",CO);
+    Firebase.pushString("Carbon Monoxide",CO);
     delay(10);
-    
-    //store previous sensors data as string in firebase
 
     delay(1000);
 
