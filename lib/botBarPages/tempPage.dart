@@ -44,6 +44,7 @@ class _tempPageState extends State<tempPage> {
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: true,
         showUnselectedLabels: false,
+        landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
         currentIndex: index,
         onTap: (int newInd) {
           setState(() {

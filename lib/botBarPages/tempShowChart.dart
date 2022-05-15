@@ -17,25 +17,21 @@ class showChart extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(children: [
-          Container(
-            height: 40,
-            width: 1000,
-            child: ListView(scrollDirection: Axis.horizontal, children: [
-              toggleButton(
-                child: Text("this Day", style: TextStyle(
-                  color: Color(0xFFFAF5E4),
-                ),),
-              ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              toggleButton(press: () {}, child: [
+                Text('Today'),
+              ]),
               SizedBox(width: 20),
-              toggleButton(
-                child: Text("this Week"),
-              ),
+              toggleButton(press: () {}, child: [
+                Text('Week'),
+              ]),
               SizedBox(width: 20),
-              toggleButton(
-                child: Text("this Month"),
-              ),
-              SizedBox(width: 20),
-            ]),
+              toggleButton(press: () {}, child: [
+                Text('Month'),
+              ])
+            ],
           ),
           SizedBox(height: 20),
 //Initialize the chart widget
@@ -66,20 +62,23 @@ class showChart extends StatelessWidget {
 }
 
 class toggleButton extends StatelessWidget {
-  const toggleButton({required this.child});
-  final Widget child;
+  toggleButton({required this.press, required this.child});
+  final press;
+  final List<Widget> child;
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Color(0xFFFFC069)),
-          fixedSize: MaterialStateProperty.all(Size(150, 30))),
-      onPressed: () {},
-      child: child,
+    return RawMaterialButton(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: child,
+      ),
+      onPressed: press,
+      shape: StadiumBorder(),
+      fillColor: Color(0xFFFFC069),
+      constraints: BoxConstraints.tightFor(width: 100.0, height: 40.0),
     );
   }
 }
-
 class _SalesData {
   _SalesData(this.year, this.sales);
 
