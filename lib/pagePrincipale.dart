@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'polutionPage.dart';
 import 'waterPage.dart';
 import 'lightPage.dart';
-import 'tempPage.dart';
+import 'botBarPages/tempPage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -14,7 +14,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   AnimationController? controller;
-  double? x = 0;
+  double? cntrlValue = 0;
   int numb = 10;
   final _key1 = GlobalKey();
   @override
@@ -31,13 +31,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     if (controller?.value != null) {
-      x = controller?.value.toDouble();
+      cntrlValue = controller?.value.toDouble();
     }
 
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF006E7F),
+        backgroundColor: Color(0xFF9D5353),
         centerTitle: true,
         title: Text('arduino state '),
       ),
@@ -45,27 +45,23 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         child: Stack(alignment: Alignment.center, children: <Widget>[
           Container(
             key: _key1,
-            color: Color(0xFFFAF5E4),
+            color: Color(0xFFFDF6EC),
           ),
           Positioned(
-            right: x! + (screenSize.width / 3),
+            right: cntrlValue! + (screenSize.width / 3),
             child: mainButton(
               press: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => polPage()));
               },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  FaIcon(
-                    FontAwesomeIcons.smog,
-                    color:  Color(0xFFFAF5E4),
-                  ),
-                  SizedBox(height: 10),
-                  Text("Polution"),
-                ],
-              ),
-              colour: Color(0xFFFF6363),
+              child: <Widget>[
+                FaIcon(
+                  FontAwesomeIcons.smog,
+                  color: Color(0xFFFAF5E4),
+                ),
+                SizedBox(height: 10),
+                Text("Polution"),
+              ],
               size: BoxConstraints.tightFor(
                 width: 100.0,
                 height: 100.0,
@@ -73,24 +69,20 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             ),
           ),
           Positioned(
-            top: x! + (screenSize.height / 3).toDouble(),
+            top: cntrlValue! + (screenSize.height / 3).toDouble(),
             child: mainButton(
               press: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => lightPage()));
               },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  FaIcon(
-                      FontAwesomeIcons.lightbulb,
-                      color: Color(0xFFFAF5E4),
-                  ),
-                  SizedBox(height: 10),
-                  Text("Light"),
-                ],
-              ),
-              colour: Color(0xFFFF6363),
+              child: <Widget>[
+                FaIcon(
+                  FontAwesomeIcons.lightbulb,
+                  color: Color(0xFFFAF5E4),
+                ),
+                SizedBox(height: 10),
+                Text("Light"),
+              ],
               size: BoxConstraints.tightFor(
                 width: 100.0,
                 height: 100.0,
@@ -98,24 +90,20 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             ),
           ),
           Positioned(
-            left: x! + (screenSize.width / 3),
+            left: cntrlValue! + (screenSize.width / 3),
             child: mainButton(
               press: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => waterPage()));
               },
-              child:Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  FaIcon(
-                    FontAwesomeIcons.water,
-                    color:  Color(0xFFFAF5E4),
-                  ),
-                  SizedBox(height: 10),
-                  Text("Water"),
-                ],
-              ),
-              colour: Color(0xFFFF6363),
+              child: <Widget>[
+                FaIcon(
+                  FontAwesomeIcons.water,
+                  color: Color(0xFFFAF5E4),
+                ),
+                SizedBox(height: 10),
+                Text("Water"),
+              ],
               size: BoxConstraints.tightFor(
                 width: 100.0,
                 height: 100.0,
@@ -123,24 +111,20 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             ),
           ),
           Positioned(
-            bottom: x! + (screenSize.height / 3),
+            bottom: cntrlValue! + (screenSize.height / 3),
             child: mainButton(
               press: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => tempPage()));
               },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  FaIcon(
-                    FontAwesomeIcons.temperatureHalf,
-                    color:  Color(0xFFFAF5E4),
-                  ),
-                  SizedBox(height: 10),
-                  Text("Temp"),
-                ],
-              ),
-              colour: Color(0xFFFF6363),
+              child: <Widget>[
+                FaIcon(
+                  FontAwesomeIcons.temperatureHalf,
+                  color: Color(0xFFFAF5E4),
+                ),
+                SizedBox(height: 10),
+                Text("Temp"),
+              ],
               size: BoxConstraints.tightFor(
                 width: 100.0,
                 height: 100.0,
@@ -154,28 +138,22 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               } else {
                 controller?.forward();
               }
-
               controller?.addListener(() {
-                print(controller?.status);
                 setState(() {});
               });
             },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                FaIcon(
-                  FontAwesomeIcons.database,
-                  size: 40,
-                  color: Color(0xFFFAF5E4),
-                ),
-                SizedBox(height: 10),
-                Text("Sensors"),
-              ],
-            ),
-            colour: Color(0xFFFF6363),
+            child: <Widget>[
+              FaIcon(
+                FontAwesomeIcons.database,
+                size: 40,
+                color: Color(0xFFFAF5E4),
+              ),
+              SizedBox(height: 10),
+              Text("Sensors"),
+            ],
             size: BoxConstraints.tightFor(
-              width: 150.0,
-              height: 150.0,
+              width: 160.0,
+              height: 160.0,
             ),
           ),
         ]),
@@ -185,22 +163,20 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 }
 
 class mainButton extends StatelessWidget {
-  mainButton(
-      {required this.press,
-      required this.colour,
-      required this.child,
-      required this.size});
+  mainButton({required this.press, required this.child, required this.size});
   final press;
-  final Color colour;
-  final Widget child;
+  final List<Widget> child;
   final BoxConstraints size;
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
-      child: child,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: child,
+      ),
       onPressed: press,
       shape: CircleBorder(),
-      fillColor: colour,
+      fillColor: Color(0xFFFFC069),
       constraints: size,
     );
   }
