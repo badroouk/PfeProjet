@@ -3,9 +3,9 @@
 #include <WiFiClient.h>
 #include <ESP8266HTTPClient.h>
 
-#define WIFI_SSID "La_Fibre_dOrange_2.4G_AE78"
-#define WIFI_PASSWORD "9AC46C401C8AC7A64040CB"
-#define host "192.168.11.101"
+#define WIFI_SSID "MIAMI-2.5G"
+#define WIFI_PASSWORD "borasol22"
+#define host "192.168.11.101" //subject to change
 
 
 String sensor_data, values;
@@ -27,11 +27,11 @@ void setup() {
 
 void loop() {
 
-    sensor_data = Serial.readString();
+    sensor_data = Serial.readString(); //Read sensor data using serial port
 
     delay(1000);
 
-    values = sensor_data;
+    values = sensor_data; //Store sensor values
 
     //get comma indexes from values variable
     int firstCommaIndex = values.indexOf(',');
@@ -60,7 +60,7 @@ void loop() {
     int carbon = CO.toInt();
     
 
-    //store ultrasonic sensor data as string in firebase
+    //Wifi client connection establishment
     WiFiClient client;
     const int httpPort = 80;
     if (!client.connect(host, httpPort)) {
@@ -68,8 +68,10 @@ void loop() {
         return;
     }
 
+  
+    //
     Serial.print("GET http://192.168.11.101/iot/dht.php?&temperature=");
-    client.print("GET http://192.168.11.101/iot/dht.php?&temperature=");     //YOUR URL
+    client.print("GET http://192.168.11.101/iot/dht.php?&temperature=");     //URL to access php file to store data in database (IP Adress subject to change!!)
     Serial.println(temp);
     client.print(temp);
     client.print("&humidity=");
@@ -119,9 +121,5 @@ void loop() {
     Serial.println("closing connection");
 
     delay(1000);
-
-  
-
-
 
 }
