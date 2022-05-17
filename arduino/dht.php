@@ -4,8 +4,8 @@
 <?php
 
 $dbname = 'iot';
-$dbuser = 'root';  
-$dbpass = ''; 
+$dbuser = 'reda';  
+$dbpass = 'password'; 
 $dbhost = 'localhost'; 
 
 $connect = @mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
