@@ -16,7 +16,7 @@ class _LightPageState extends State<LightPage> {
   Future<MySqlConnection> _retrieveConnection() async {
     return MySqlConnection.connect(
       ConnectionSettings(
-          host: '192.168.1.6',
+          host: '192.168.56.1',
           port: 3306,
           user: 'badr',
           password: 'password',

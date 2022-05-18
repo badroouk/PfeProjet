@@ -27,6 +27,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  property_change_notifier: ^0.3.0
   easy_sidemenu: ^0.2.1
   mysql1: ^0.19.2
   flutter:
