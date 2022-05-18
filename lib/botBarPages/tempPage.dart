@@ -1,9 +1,12 @@
 import 'package:arduinopfe/botBarPages/tempBarChart.dart';
 import 'package:arduinopfe/botBarPages/tempShowChart.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+
 
 class tempPage extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
@@ -12,13 +15,23 @@ class tempPage extends StatefulWidget {
   @override
   _tempPageState createState() => _tempPageState();
 }
-
 class _tempPageState extends State<tempPage> {
+  final _database = FirebaseDatabase.instance.reference();
+  var plz;
   List Pages = [
     showChart(),
     barChart(),
   ];
   int index = 0;
+  void initState() {
+    super.initState();
+    activateListener();
+  }
+ void activateListener() async{
+    final tempref = await _database.child('Arduino/temperature').get();
+    print(tempref.value);
+    }
+
 
   @override
   Widget build(BuildContext context) {
@@ -74,4 +87,10 @@ class _tempPageState extends State<tempPage> {
       ),
     );
   }
+}
+void getTemp()async {
+ final Temp = await FirebaseFirestore.instance.collection('Temperature').get();
+ for (var tmp in Temp.docs ){
+   print(tmp.data());
+ }
 }

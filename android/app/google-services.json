@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "155216595366",
+    "firebase_url": "https://arduino-aa57e-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "arduino-aa57e",
+    "storage_bucket": "arduino-aa57e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155216595366:android:64577ef93001bb11d96767",
+        "android_client_info": {
+          "package_name": "com.example.arduinopfe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "155216595366-9eqt5llg422kg70uqo1n2f7q7a18crrh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf_cJtSNS2qw_SITO8OkrpYrZdmHWwb-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "155216595366-9eqt5llg422kg70uqo1n2f7q7a18crrh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
