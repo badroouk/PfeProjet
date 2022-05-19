@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'humidityPage.dart';
 import 'polutionPage.dart';
 import 'waterPage.dart';
 import 'lightPage.dart';
@@ -25,7 +26,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         vsync: this,
         duration: Duration(milliseconds: 700),
         lowerBound: 0,
-        upperBound: 150);
+        upperBound: 130);
   }
 
   @override
@@ -44,11 +45,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       body: Center(
         child: Stack(alignment: Alignment.center, children: <Widget>[
           Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
             key: _key1,
             color: Color(0xFFFDF6EC),
           ),
           Positioned(
             right: cntrlValue! + (screenSize.width / 3),
+            bottom: cntrlValue! + (screenSize.height / 3).toDouble(),
             child: mainButton(
               press: () {
                 Navigator.of(context)
@@ -69,11 +73,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             ),
           ),
           Positioned(
+            right: cntrlValue! + (screenSize.width / 3),
             top: cntrlValue! + (screenSize.height / 3).toDouble(),
             child: mainButton(
               press: () {
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => lightPage()));
+                    .push(MaterialPageRoute(builder: (context) => LightPage()));
               },
               child: <Widget>[
                 FaIcon(
@@ -91,6 +96,29 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           ),
           Positioned(
             left: cntrlValue! + (screenSize.width / 3),
+            top: cntrlValue! + (screenSize.height / 3).toDouble(),
+            child: mainButton(
+              press: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => humidityPage()));
+              },
+              child: <Widget>[
+                FaIcon(
+                  FontAwesomeIcons.lightbulb,
+                  color: Color(0xFFFAF5E4),
+                ),
+                SizedBox(height: 10),
+                Text("humidity"),
+              ],
+              size: BoxConstraints.tightFor(
+                width: 100.0,
+                height: 100.0,
+              ),
+            ),
+          ),
+          Positioned(
+            left: cntrlValue! + (screenSize.width / 3),
+            bottom: cntrlValue! + (screenSize.height / 3).toDouble(),
             child: mainButton(
               press: () {
                 Navigator.of(context)
@@ -111,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             ),
           ),
           Positioned(
-            bottom: cntrlValue! + (screenSize.height / 3),
+            bottom: cntrlValue! + (screenSize.height /2.6),
             child: mainButton(
               press: () {
                 Navigator.of(context)
