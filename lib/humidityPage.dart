@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
+
 class humidityPage extends StatefulWidget {
   @override
   State<humidityPage> createState() => _humidityPageState();
 }
 
 class _humidityPageState extends State<humidityPage> {
-  static int x=1;
-  static List<_humidityData> data2=[];
-  RefreshStream2<List<_humidityData>> _refreshStream = RefreshStream2(Duration(seconds: 2));
+  static int x = 1;
+  static List<_humidityData> data2 = [];
+  RefreshStream2<List<_humidityData>> _refreshStream =
+      RefreshStream2(Duration(seconds: 4));
 
   Future<MySqlConnection> _retrieveConnection() async {
     return MySqlConnection.connect(
@@ -30,11 +32,11 @@ class _humidityPageState extends State<humidityPage> {
       "SELECT * FROM `arduino` ORDER BY arduino.id DESC LIMIT 1;",
     );
     final humidity = carbon.first.fields['humidity'].toString();
-    final time =  carbon.first.fields['created_at'].toString();
+    final time = carbon.first.fields['created_at'].toString();
 
     List<_humidityData> data;
     return data = [
-    _humidityData(humidity, time),
+      _humidityData(humidity, time),
     ];
   }
 
@@ -63,38 +65,42 @@ class _humidityPageState extends State<humidityPage> {
                     stream: _refreshStream.stream,
                     builder: (_, snapData) {
                       if (snapData.hasData) {
-                          data2.add(snapData.data!.first);
-                          x++;
-                          debugPrint(x.toString());
-
-                        debugPrint(data2.length.toString());
+                        data2.add(snapData.data!.first);
+                        var seen = Set<String>();
+                        List<_humidityData> uniquelist = data2.where((data) => seen.add(data._time)).toList();
+                        print(uniquelist.length);
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Center(
-                              child:  SfCartesianChart(
+                              child: SfCartesianChart(
                                   backgroundColor: Colors.white,
                                   primaryXAxis: CategoryAxis(),
 // Enable legend
-                                  legend: Legend(isVisible: true, position: LegendPosition.bottom),
+                                  legend: Legend(
+                                      isVisible: true,
+                                      position: LegendPosition.bottom),
 
 // Enable tooltip
-                                  tooltipBehavior: TooltipBehavior(enable: true),
+                                  tooltipBehavior:
+                                      TooltipBehavior(enable: true),
                                   series: <ChartSeries<_humidityData, String>>[
                                     LineSeries<_humidityData, String>(
                                         color: Color(0xFFFF6363),
-                                        dataSource: data2,
-                                        xValueMapper: (_humidityData humidity, _) => humidity._time,
-                                        yValueMapper: (_humidityData humidity, _) => double.parse(humidity._humidity),
+                                        dataSource: uniquelist,
+                                        xValueMapper:
+                                            (_humidityData humidity, _) =>
+                                                humidity._time,
+                                        yValueMapper:
+                                            (_humidityData humidity,_) =>
+                                            double.parse(humidity._humidity),
                                         name: 'Humidity',
 // Enable data label
-                                        dataLabelSettings: DataLabelSettings(isVisible: true))
+                                        dataLabelSettings:
+                                            DataLabelSettings(isVisible: true))
                                   ]),
                             ),
-
-
                           ],
-
                         );
                       } else {
                         return Column(
@@ -120,16 +126,22 @@ class _humidityPageState extends State<humidityPage> {
   }
 
   List<_humidityData> _Listener(_humidityData data) {
-    final newData = new _humidityData(data._humidity,data._time);
-   final List<_humidityData> myList=[];
-   myList.add(newData);
-   print(myList.length);
-   return myList;
+    final newData = new _humidityData(data._humidity, data._time);
+    final List<_humidityData> myList = [];
+    myList.add(newData);
+    print(myList.length);
+    return myList;
   }
 }
 
 extension FutureExtension on AsyncSnapshot {
   bool get ready => hasData && connectionState == ConnectionState.done;
+}
+
+extension DuplicateRemoval<T> on List<T> {
+  List<T> get removeAllDuplicates => [
+        ...{...this}
+      ];
 }
 
 extension WidgetExtensions on Widget {
@@ -139,21 +151,19 @@ extension WidgetExtensions on Widget {
     );
   }
 }
-void increment(x){
-  x++;
-  print("x=$x");
-}
 
-class _humidityData{
+
+class _humidityData {
   _humidityData(this._humidity, this._time);
 
   final String _time;
   final String _humidity;
 
-  set _time(String value){
+  set _time(String value) {
     _time = value;
   }
-  set _humidity(String value){
+
+  set _humidity(String value) {
     _humidity = value;
   }
 }
