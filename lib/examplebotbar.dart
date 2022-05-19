@@ -1,5 +1,3 @@
-import 'package:arduinopfe/botBarPages/tempBarChart.dart';
-import 'package:arduinopfe/botBarPages/tempShowChart.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,8 +17,6 @@ class _tempPageState extends State<tempPage> {
   final _database = FirebaseDatabase.instance.reference();
   var plz;
   List Pages = [
-    showChart(),
-    barChart(),
   ];
   int index = 0;
   void initState() {

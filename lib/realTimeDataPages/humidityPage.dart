@@ -3,7 +3,6 @@ import 'package:arduinopfe/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:property_change_notifier/property_change_notifier.dart';
 
 class humidityPage extends StatefulWidget {
   @override
@@ -32,7 +31,7 @@ class _humidityPageState extends State<humidityPage> {
       "SELECT * FROM `arduino` ORDER BY arduino.id DESC LIMIT 1;",
     );
     final humidity = carbon.first.fields['humidity'].toString();
-    final time = carbon.first.fields['created_at'].toString();
+    final time = carbon.first.fields['created_at'].toString().substring(10,19);
 
     List<_humidityData> data;
     return data = [
@@ -49,9 +48,22 @@ class _humidityPageState extends State<humidityPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFF006E7F),
-        title: Text('Humidity data'),
+      backgroundColor: Color(0xFFFAF5E4),
+      appBar:  AppBar(
+        centerTitle: true,
+        backgroundColor: Color(0xFF9D5353),
+        title: Text('humidity data'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.refresh,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              // do something
+            },
+          )
+        ],
       ),
       body: FutureBuilder<MySqlConnection>(
         future: _retrieveConnection(),
@@ -73,39 +85,59 @@ class _humidityPageState extends State<humidityPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Center(
-                              child: SfCartesianChart(
-                                  backgroundColor: Colors.white,
-                                  primaryXAxis: CategoryAxis(),
-// Enable legend
-                                  legend: Legend(
-                                      isVisible: true,
-                                      position: LegendPosition.bottom),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white,
+                                ),
+                                width: 380,
+                                height: 300,
+                                child: SfCartesianChart(
+                                    primaryXAxis: CategoryAxis(),
+                                    legend: Legend(
+                                        isVisible: true,
+                                        position: LegendPosition.bottom),
 
 // Enable tooltip
-                                  tooltipBehavior:
-                                      TooltipBehavior(enable: true),
-                                  series: <ChartSeries<_humidityData, String>>[
-                                    LineSeries<_humidityData, String>(
-                                        color: Color(0xFFFF6363),
-                                        dataSource: uniquelist,
-                                        xValueMapper:
-                                            (_humidityData humidity, _) =>
-                                                humidity._time,
-                                        yValueMapper:
-                                            (_humidityData humidity,_) =>
-                                            double.parse(humidity._humidity),
-                                        name: 'Humidity',
+                                    tooltipBehavior:
+                                        TooltipBehavior(enable: true),
+                                    series: <ChartSeries<_humidityData, String>>[
+                                      LineSeries<_humidityData, String>(
+                                          color: Color(0xFFFF6363),
+                                          dataSource: uniquelist,
+                                          xValueMapper:
+                                              (_humidityData humidity, _) =>
+                                                  humidity._time,
+                                          yValueMapper:
+                                              (_humidityData humidity,_) =>
+                                              double.parse(humidity._humidity),
+                                          name: 'Humidity',
 // Enable data label
-                                        dataLabelSettings:
-                                            DataLabelSettings(isVisible: true))
-                                  ]),
+                                          dataLabelSettings:
+                                              DataLabelSettings(isVisible: true))
+                                    ]),
+                              ),
                             ),
                           ],
                         );
                       } else {
                         return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            loading(message: "Retrieving data ...").center(),
+                            Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white,
+                                ),
+                                height: 300,
+                                width: 380,
+                                child : Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    loading(message: "Retrieving data ...").center(),
+                                  ],
+                                )
+                            ).center()
                           ],
                         );
                       }

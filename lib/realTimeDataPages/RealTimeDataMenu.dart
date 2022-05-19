@@ -3,7 +3,7 @@ import 'humidityPage.dart';
 import 'polutionPage.dart';
 import 'waterPage.dart';
 import 'lightPage.dart';
-import 'botBarPages/tempPage.dart';
+import 'tempPage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MyHomePage extends StatefulWidget {

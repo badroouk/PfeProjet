@@ -5,7 +5,7 @@ Widget loading({
 }) {
   return Column(
     children: [
-      const CircularProgressIndicator(),
+      const CircularProgressIndicator(color: Color(0xFFFFC069)),
       const SizedBox(height: 20),
       Text(message),
     ],
