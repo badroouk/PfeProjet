@@ -1,38 +1,10 @@
-import 'package:arduinopfe/realTimeDataPages/RealTimeDataMenu.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mysql1/mysql1.dart';
-import 'package:arduinopfe/database/mysql.dart';
 
-class backUpPage extends StatefulWidget {
-  backUpPage({Key? key}) : super(key: key);
+import 'MonitoringMenu.dart';
 
-  @override
-  State<backUpPage> createState() => _backUpPageState();
-}
-
-class _backUpPageState extends State<backUpPage> {
-  var res;
-
-  List<String> carbon=[];
-
-  var row;
-
-  Future getConnection() async {
-    final conn = await MySqlConnection.connect(
-      ConnectionSettings(
-          host: '192.168.56.1',
-          port: 3306,
-          user: 'badr',
-          password: 'password',
-          db: 'iot'),
-    );
-    res = await conn.query(
-        'SELECT * FROM `arduino`;');
-    for (row in res) {
-        carbon.add(row[7].toString().substring(10, 19));
-    }
-  }
+class pageAcceuil extends StatelessWidget {
+  const pageAcceuil({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +13,7 @@ class _backUpPageState extends State<backUpPage> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Color(0xFF9D5353),
-        title: Text('Back-up Data'),
+        title: Text('Arduino project'),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -57,17 +29,16 @@ class _backUpPageState extends State<backUpPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-
           Center(
             child: SizedBox(
               width: 200,
               child: menuButton(
                 press: (){
                   Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => MyHomePage()));
+                      .push(MaterialPageRoute(builder: (context) => monitoringPage()));
                 },
-                icon:  FontAwesomeIcons.clock,
-                text: "Real-Time data",
+                icon:  FontAwesomeIcons.chartLine,
+                text: "Monitoring",
               ),
             ),
           ),
@@ -76,11 +47,9 @@ class _backUpPageState extends State<backUpPage> {
             child: SizedBox(
               width: 200,
               child: menuButton(
-                press: (){
-                  getConnection();
-                },
-                icon:  FontAwesomeIcons.database,
-                text: "Back-Up data",
+                press: (){},
+                icon:  FontAwesomeIcons.calculator,
+                text: "Statistics",
               ),
             ),
           )
@@ -94,8 +63,8 @@ class menuButton extends StatelessWidget {
   const menuButton({required this.icon,required this.text,required this.press
   }) ;
   final press;
-  final IconData icon;
-  final String text;
+final IconData icon;
+final String text;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -108,7 +77,7 @@ class menuButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [Text(text),
             FaIcon(
-                icon
+             icon
             )
           ],
         ));

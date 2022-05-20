@@ -21,13 +21,7 @@ class _tempPageState extends State<tempPage> {
   int index = 0;
   void initState() {
     super.initState();
-    activateListener();
   }
- void activateListener() async{
-    final tempref = await _database.child('Arduino/temperature').get();
-    print(tempref.value);
-    }
-
 
   @override
   Widget build(BuildContext context) {
