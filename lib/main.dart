@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'authentification/login_page.dart';
+import 'authentification/register_page.dart';
 import 'pageAcceuil.dart';
 
 void main()  {
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home:pageAcceuil(),
+      home:registerPage(),
     );
   }
 }

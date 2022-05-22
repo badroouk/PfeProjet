@@ -1,8 +1,9 @@
+import 'package:arduinopfe/backUpDataPages/backupDataPage.dart';
 import 'package:arduinopfe/realTimeDataPages/RealTimeDataMenu.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mysql1/mysql1.dart';
-import 'package:arduinopfe/database/mysql.dart';
 
 class backUpPage extends StatefulWidget {
   backUpPage({Key? key}) : super(key: key);
@@ -12,87 +13,180 @@ class backUpPage extends StatefulWidget {
 }
 
 class _backUpPageState extends State<backUpPage> {
-  var res;
-
-  List<String> carbon=[];
-
-  var row;
-
-  Future getConnection() async {
-    final conn = await MySqlConnection.connect(
-      ConnectionSettings(
-          host: '192.168.56.1',
-          port: 3306,
-          user: 'badr',
-          password: 'password',
-          db: 'iot'),
-    );
-    res = await conn.query(
-        'SELECT * FROM `arduino`;');
-    for (row in res) {
-        carbon.add(row[7].toString().substring(10, 19));
+  void dropdownCallback(String? selectedValue) {
+    if (selectedValue is String) {
+      setState(() {
+        _dropdownValue = selectedValue;
+      });
     }
   }
 
+  late String _dropdownValue = 'temperature';
+  late DateTime _dateStart = DateTime.now();
+  late DateTime _dateEnd = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFFAF5E4),
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Color(0xFF9D5353),
+        backgroundColor: Colors.grey,
         title: Text('Back-up Data'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.refresh,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              // do something
-            },
-          )
-        ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('images/forest.jpg'), fit: BoxFit.cover),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Column(
+                children: [
+                  DropdownButton(
+                    items: const [
+                      DropdownMenuItem(
+                        child: Text('temperature'),
+                        value: 'temperature',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('humidity'),
+                        value: 'humidity',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('precipitation'),
+                        value: 'precipitation',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('ultraviolet'),
+                        value: 'ultraviolet',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('luminosity'),
+                        value: 'luminosity',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('Pollution'),
+                        value: 'carbonmonoxide',
+                      ),
+                    ],
+                    onChanged: dropdownCallback,
+                    value: _dropdownValue,
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  SizedBox(
+                    width: 200,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.grey),
+                      onPressed: () async {
+                        DateTime? dateStart = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2001),
+                          lastDate: DateTime(2222),
+                        );
+                        if (dateStart == null) return;
 
-          Center(
-            child: SizedBox(
-              width: 200,
-              child: menuButton(
-                press: (){
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => MyHomePage()));
-                },
-                icon:  FontAwesomeIcons.clock,
-                text: "Real-Time data",
+                        debugPrint(
+                            'date start: ${dateStart.toString().substring(0, 10)}');
+
+                        TimeOfDay? newTime = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay(hour: 00, minute: 00),
+                        );
+                        if (newTime == null) return;
+                        debugPrint(newTime.toString());
+                        final newDateTimeStart = DateTime(
+                            dateStart.year,
+                            dateStart.month,
+                            dateStart.day,
+                            newTime.hour,
+                            newTime.minute);
+                        setState(() {
+                          _dateStart = newDateTimeStart;
+                        });
+                      },
+                      child: Text(
+                          'Start date: ${_dateStart.toString().substring(0, 19)}'),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  SizedBox(
+                    width: 200,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.grey),
+                      onPressed: () async {
+                        DateTime? dateEnd = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2001),
+                          lastDate: DateTime(2222),
+                        );
+                        if (dateEnd == null) return;
+
+                        debugPrint(
+                            'date end: ${dateEnd.toString().substring(0, 19)}');
+
+                        TimeOfDay? newTime = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay(hour: 00, minute: 00),
+                        );
+                        if (newTime == null) return;
+                        debugPrint(newTime.toString());
+                        final newDateTimeEnd = DateTime(
+                            dateEnd.year,
+                            dateEnd.month,
+                            dateEnd.day,
+                            newTime.hour,
+                            newTime.minute);
+                        setState(() {
+                          _dateEnd = newDateTimeEnd;
+                        });
+                      },
+                      child: Text(
+                          'End date: ${_dateEnd.toString().substring(0, 19)}'),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  SizedBox(
+                    width: 100,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.grey),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => backupDataPage(
+                                      queryToExecute:
+                                          "SELECT `$_dropdownValue`,`created_at` FROM `arduino` WHERE arduino.created_at BETWEEN \"$_dateStart\"  AND \"$_dateEnd\";",
+                                      dateStart: _dateStart,
+                                      dateEnd: _dateEnd,
+                                      variable: _dropdownValue,
+                                    )));
+                      },
+                      child: Text('Search'),
+                    ),
+                  )
+                ],
               ),
             ),
-          ),
-          SizedBox(height: 30,),
-          Center(
-            child: SizedBox(
-              width: 200,
-              child: menuButton(
-                press: (){
-                  getConnection();
-                },
-                icon:  FontAwesomeIcons.database,
-                text: "Back-Up data",
-              ),
-            ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
 }
 
 class menuButton extends StatelessWidget {
-  const menuButton({required this.icon,required this.text,required this.press
-  }) ;
+  const menuButton(
+      {required this.icon, required this.text, required this.press});
   final press;
   final IconData icon;
   final String text;
@@ -106,11 +200,7 @@ class menuButton extends StatelessWidget {
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Text(text),
-            FaIcon(
-                icon
-            )
-          ],
+          children: [Text(text), FaIcon(icon)],
         ));
   }
 }
