@@ -18,11 +18,11 @@ class _registerPageState extends State<registerPage> {
     var url = Uri.parse("http://192.168.56.1/login_register/register.php");
     var response = await http.post(url, body: {
       "username": user.text,
-      "pass": pass.text,
+      "password": pass.text,
     });
-    var data =  JsonEncoder().convert(response.body);
-    var data2 =data.substring(161);
-    if (data2 == "\"Error\\\"\"") {
+    var data =  response.body;
+    print(data);
+    if (data == "\"Error\"") {
       Fluttertoast.showToast(
           msg: "This User Already Exit!",
           toastLength: Toast.LENGTH_SHORT,
@@ -85,7 +85,7 @@ class _registerPageState extends State<registerPage> {
                 contentPadding:
                     EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                 labelText: 'Password',
-                prefixIcon: Icon(Icons.password),
+                prefixIcon: Icon(Icons.lock),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                 enabledBorder: OutlineInputBorder(
