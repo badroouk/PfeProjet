@@ -52,6 +52,7 @@ class _registerPageState extends State<registerPage> {
 
   @override
   Widget build(BuildContext context) {
+    final iskeyboard=MediaQuery.of(context).viewInsets.bottom!=0;
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -74,7 +75,7 @@ class _registerPageState extends State<registerPage> {
                       color: Colors.grey
                   ),),
                 SizedBox(height: 10,),
-                Container(
+                if (!iskeyboard) Container(
                     width: 300,
                     height: 200,
                     child: SvgPicture.asset("images/start.svg")

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:arduinopfe/realTimeDataPages/RealTimeDataMenu.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:arduinopfe/authentification/register_page.dart';
 import 'package:arduinopfe/pageAcceuil.dart';
@@ -6,6 +7,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+
 class loginPage extends StatefulWidget {
   const loginPage({Key? key}) : super(key: key);
 
@@ -17,6 +20,7 @@ class _loginPageState extends State<loginPage> {
   bool _validate = false;
   bool _validate2 = false;
   bool _isObscure = true;
+
 
   TextEditingController user = TextEditingController();
   TextEditingController pass = TextEditingController();
@@ -54,11 +58,10 @@ class _loginPageState extends State<loginPage> {
   }
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
+    final iskeyboard=MediaQuery.of(context).viewInsets.bottom!=0;
+    return KeyboardDismissOnTap(
       child: Scaffold(
+          resizeToAvoidBottomInset : true,
           backgroundColor: Color(0xFFFAF5E4),
           body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 40.0),
@@ -75,7 +78,7 @@ class _loginPageState extends State<loginPage> {
                 fontSize: 12,
                 color: Colors.grey
               ),),
-            Container(
+            if (!iskeyboard) Container(
               width: 300,
               height: 200,
               child: SvgPicture.asset("images/hello.svg")
@@ -120,6 +123,7 @@ class _loginPageState extends State<loginPage> {
               height: 20,
             ),
             TextField(
+              keyboardType:  TextInputType.text,
               controller: pass,
               obscureText: _isObscure,
               decoration: InputDecoration(

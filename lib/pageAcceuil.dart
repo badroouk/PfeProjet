@@ -1,3 +1,4 @@
+import 'package:arduinopfe/statistics/dataMenu.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -47,7 +48,10 @@ class pageAcceuil extends StatelessWidget {
             child: SizedBox(
               width: 200,
               child: menuButton(
-                press: (){},
+                press: (){
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => dataPage()));
+                },
                 icon:  FontAwesomeIcons.calculator,
                 text: "Statistics",
               ),
