@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:arduinopfe/realTimeDataPages/RealTimeDataMenu.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:arduinopfe/authentification/register_page.dart';
 import 'package:arduinopfe/pageAcceuil.dart';
@@ -8,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class loginPage extends StatefulWidget {
   const loginPage({Key? key}) : super(key: key);
@@ -31,20 +31,9 @@ class _loginPageState extends State<loginPage> {
       "username" : user.text,
       "password" : pass.text,
     });
-    var data = response.body;
-    print(data);
-    if (data == "\"Success\"") {
-      Fluttertoast.showToast(
-          msg: "successfuly loged in",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.9);
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => pageAcceuil()));
-    }else{
+    var data = jsonDecode(response.body)as Map<String ,dynamic> ;
+
+    if (data["Error"] != null) {
       Fluttertoast.showToast(
           msg: "user undefined",
           toastLength: Toast.LENGTH_SHORT,
@@ -53,6 +42,21 @@ class _loginPageState extends State<loginPage> {
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.9);
+
+    }else{
+      Fluttertoast.showToast(
+          msg: "successfuly loged in",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.9);
+      SharedPreferences localstorage = await SharedPreferences.getInstance();
+      localstorage.setString('user', data['username']);
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => pageAcceuil()));
+      debugPrint(data.toString());
     }
 
   }

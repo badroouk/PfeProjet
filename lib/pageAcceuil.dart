@@ -1,6 +1,9 @@
+import 'package:arduinopfe/actualCondition.dart';
+import 'package:arduinopfe/authentification/login_page.dart';
 import 'package:arduinopfe/statistics/dataMenu.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'MonitoringMenu.dart';
 
@@ -14,14 +17,19 @@ class pageAcceuil extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Color(0xFF9D5353),
-        title: Text('Arduino project'),
+        title: Text('Arduino weather station'),
         actions: <Widget>[
           IconButton(
             icon: Icon(
-              Icons.refresh,
+              Icons.logout,
               color: Colors.white,
             ),
-            onPressed: () {
+            onPressed: () async{
+              SharedPreferences localstorage = await SharedPreferences.getInstance();
+              localstorage.remove('user');
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => loginPage()));
+
               // do something
             },
           )
@@ -34,25 +42,46 @@ class pageAcceuil extends StatelessWidget {
             child: SizedBox(
               width: 200,
               child: menuButton(
-                press: (){
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => monitoringPage()));
+                press: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ActualCondition(),
+                    ),
+                  );
                 },
-                icon:  FontAwesomeIcons.chartLine,
-                text: "Monitoring",
+                icon: FontAwesomeIcons.clock,
+                text: "Actual conditions",
               ),
             ),
           ),
-          SizedBox(height: 30,),
+          SizedBox(
+            height: 30,
+          ),
           Center(
             child: SizedBox(
               width: 200,
               child: menuButton(
-                press: (){
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => dataPage()));
+                press: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => monitoringPage()));
                 },
-                icon:  FontAwesomeIcons.calculator,
+                icon: FontAwesomeIcons.chartLine,
+                text: "Monitoring",
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          Center(
+            child: SizedBox(
+              width: 200,
+              child: menuButton(
+                press: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => dataPage()));
+                },
+                icon: FontAwesomeIcons.calculator,
                 text: "Statistics",
               ),
             ),
@@ -64,11 +93,11 @@ class pageAcceuil extends StatelessWidget {
 }
 
 class menuButton extends StatelessWidget {
-  const menuButton({required this.icon,required this.text,required this.press
-  }) ;
+  const menuButton(
+      {required this.icon, required this.text, required this.press});
   final press;
-final IconData icon;
-final String text;
+  final IconData icon;
+  final String text;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -79,11 +108,7 @@ final String text;
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Text(text),
-            FaIcon(
-             icon
-            )
-          ],
+          children: [Text(text), FaIcon(icon)],
         ));
   }
 }

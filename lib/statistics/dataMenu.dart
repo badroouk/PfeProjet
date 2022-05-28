@@ -163,7 +163,7 @@ class _dataPageState extends State<dataPage> {
                     style: ElevatedButton.styleFrom(primary:Color(0xFF9D5353)),
                     onPressed: () async {
                       dropdownCallback(_dropdownValue);
-                      final url = "http://192.168.1.6:5000/";
+                      final url = "http://192.168.11.232:5000 ";
                       final response = await http.post(Uri.parse(url),
                           body: json.encode({
                             'value': _dropdownValue,
@@ -182,7 +182,7 @@ class _dataPageState extends State<dataPage> {
                       style:
                           ElevatedButton.styleFrom(primary: Color(0xFFFFC069)),
                       onPressed: () async {
-                        final url = "http://192.168.1.6:5000/";
+                        final url = "http://192.168.11.232:5000 ";
                         final response = await http.get(Uri.parse(url));
                         final decode =
                             json.decode(response.body) as Map<String, dynamic>;
@@ -200,7 +200,7 @@ class _dataPageState extends State<dataPage> {
                       style:
                           ElevatedButton.styleFrom(primary: Color(0xFFFFC069)),
                       onPressed: () async {
-                        final url = "http://192.168.1.6:5000/";
+                        final url = "http://192.168.11.232:5000 ";
                         final response = await http.get(Uri.parse(url));
                         final decode =
                             json.decode(response.body) as Map<String, dynamic>;
@@ -223,7 +223,7 @@ class _dataPageState extends State<dataPage> {
                       style:
                           ElevatedButton.styleFrom(primary: Color(0xFFFFC069)),
                       onPressed: () async {
-                        final url = "http://192.168.1.6:5000/";
+                        final url = "http://192.168.11.232:5000 ";
                         final response = await http.get(Uri.parse(url));
                         final decode =
                             json.decode(response.body) as Map<String, dynamic>;
@@ -242,7 +242,7 @@ class _dataPageState extends State<dataPage> {
                       style:
                           ElevatedButton.styleFrom(primary: Color(0xFFFFC069)),
                       onPressed: () async {
-                        final url = "http://192.168.1.6:5000/";
+                        final url = "http://192.168.11.232:5000 ";
                         final response = await http.get(Uri.parse(url));
                         final decode =
                             json.decode(response.body) as Map<String, dynamic>;
