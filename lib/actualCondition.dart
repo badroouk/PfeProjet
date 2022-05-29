@@ -94,6 +94,7 @@ class ActualCondition extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ReusableCard(
+                      color: Colors.white,
                       cardChild: Column(children: [
                         Text('Date:'),
                         SizedBox(
@@ -109,6 +110,7 @@ class ActualCondition extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ReusableCard(
+                          color: Colors.white,
                           cardChild: Column(
                             children: [
                               Text(
@@ -123,6 +125,7 @@ class ActualCondition extends StatelessWidget {
                           ),
                         ),
                         ReusableCard(
+              color: Colors.white,
                           cardChild: Column(children: [
                             Text(
                               'Humidity: ',
@@ -142,6 +145,7 @@ class ActualCondition extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ReusableCard(
+                          color: Colors.white,
                           cardChild: Column(children: [
                             Text(
                               'Precipitation:',
@@ -154,6 +158,7 @@ class ActualCondition extends StatelessWidget {
                           ]),
                         ),
                         ReusableCard(
+                          color: Colors.white,
                           cardChild: Column(children: [
                             Text(
                               'Ultraviolet:',
@@ -173,6 +178,7 @@ class ActualCondition extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ReusableCard(
+                          color: Colors.white,
                           cardChild: Column(children: [
                             Text(
                               'Luminosity:',
@@ -184,6 +190,7 @@ class ActualCondition extends StatelessWidget {
                           ]),
                         ),
                         ReusableCard(
+                          color: Colors.white,
                           cardChild: Column(children: [
                             Text(
                               'Pollution:',

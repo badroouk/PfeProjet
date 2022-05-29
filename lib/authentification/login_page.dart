@@ -55,24 +55,24 @@ class _loginPageState extends State<loginPage> {
       SharedPreferences localstorage = await SharedPreferences.getInstance();
       localstorage.setString('user', data['username']);
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => pageAcceuil()));
+          .pushReplacement(MaterialPageRoute(builder: (context) => pageAcceuil()));
       debugPrint(data.toString());
     }
 
   }
   @override
   Widget build(BuildContext context) {
-    final iskeyboard=MediaQuery.of(context).viewInsets.bottom!=0;
+    final bool iskeyboard=MediaQuery.of(context).viewInsets.bottom!=0;
+    debugPrint(iskeyboard.toString());
     return KeyboardDismissOnTap(
       child: Scaffold(
-          resizeToAvoidBottomInset : true,
           backgroundColor: Color(0xFFFAF5E4),
           body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 40.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Welcome Back!",
+            Text("Welcome!",
               style: TextStyle(
               fontSize: 30,
             ),),
@@ -82,11 +82,12 @@ class _loginPageState extends State<loginPage> {
                 fontSize: 12,
                 color: Colors.grey
               ),),
-            if (!iskeyboard) Container(
+            if (!iskeyboard)  Container(
               width: 300,
               height: 200,
               child: SvgPicture.asset("images/hello.svg")
             ),
+
             SizedBox(height:20),
             TextField(
               controller: user,
